@@ -1,3 +1,5 @@
+// CameraView.js
+
 import React, { useRef, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CaptureContext from '../contexts/CaptureContext';
@@ -9,50 +11,30 @@ function CameraView() {
   const { setCapturedImage } = useContext(CaptureContext);
 
   useEffect(() => {
-    const videoElement = videoRef.current;
-    const handleVideoPlay = () => {
-      videoElement.play().catch(err => {
-        console.error("Error attempting to play video: ", err);
-      });
-    };
-  
-    const constraints = {
+    navigator.mediaDevices.getUserMedia({
       video: {
         facingMode: 'user',
-        width: { ideal: 480 },
-        height: { ideal: 640 }
-      }
-    };
-  
-    navigator.mediaDevices.getUserMedia(constraints)
-      .then(stream => {
-        videoElement.srcObject = stream;
-        videoElement.addEventListener('loadedmetadata', handleVideoPlay);
+        width: { ideal: 640 }, // Ideal width for portrait (4:3)
+        height: { ideal: 853 }, // Ideal height for portrait (4:3)
+      },
+    })
+      .then((stream) => {
+        videoRef.current.srcObject = stream;
       })
-      .catch(err => {
-        console.error('Failed to get media stream', err);
-      });
-  
-    // Cleanup function to remove event listener
-    return () => {
-      videoElement.removeEventListener('loadedmetadata', handleVideoPlay);
-    };
+      .catch((err) => console.error(err));
   }, []);
-  
 
   const captureImage = () => {
     const canvas = document.createElement('canvas');
-    // Set canvas size to match video stream's resolution
-    canvas.width = 480; // Fixed width for portrait
-    canvas.height = 640; // Fixed height for portrait
-
+    canvas.width = videoRef.current.videoWidth;
+    canvas.height = videoRef.current.videoHeight;
     const context = canvas.getContext('2d');
-    // Optionally flip the canvas context horizontally
-    context.translate(canvas.width, 0);
-    context.scale(-1, 1);
 
-    // Draw the video frame to canvas
-    context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+    // Flip the image horizontally for a mirrored effect
+    context.save();
+    context.scale(-1, 1);
+    context.drawImage(videoRef.current, -canvas.width, 0, canvas.width, canvas.height);
+    context.restore();
 
     const dataUrl = canvas.toDataURL('image/png');
     setCapturedImage(dataUrl);
@@ -62,7 +44,7 @@ function CameraView() {
   return (
     <div className="container camera-view">
       <div className="video-wrapper">
-        <video ref={videoRef} autoPlay playsInline style={{ transform: 'scaleX(-1)' }} />
+        <video ref={videoRef} autoPlay playsInline />
       </div>
       <div className="camera-button">
         <button className="capture-button" onClick={captureImage}>

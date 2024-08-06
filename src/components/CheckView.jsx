@@ -1,3 +1,5 @@
+// CheckView.js
+
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import CaptureContext from '../contexts/CaptureContext';
@@ -38,37 +40,48 @@ function CheckView() {
         const frameWidth = frameImage.width;
         const frameHeight = frameImage.height;
 
-        // 모바일 화면 크기 기준 조정
-        let imageWidth, imageHeight, imageX, imageY;
-        if (window.innerWidth <= 768) { // 모바일 기기 너비의 예: 768px 이하
-          imageWidth = frameWidth * 0.8; 
-          imageHeight = frameHeight * 0.734;
-          imageX = (frameWidth - imageWidth) / 2.3;
-          imageY = (frameHeight - imageHeight) / 2.2;
-        } else { // 데스크탑 또는 더 큰 화면의 기본 비율
-          imageWidth = frameWidth * 0.8; 
-          imageHeight = frameHeight * 0.77;
-          imageX = (frameWidth - imageWidth) / 2.3;
-          imageY = (frameHeight - imageHeight) / 2.5;
+        // Calculate image dimensions based on the frame aspect ratio
+        const imageAspectRatio = capturedImg.width / capturedImg.height;
+        const frameAspectRatio = frameWidth / frameHeight;
 
+        let imageWidth, imageHeight, imageX, imageY;
+
+        if (imageAspectRatio > frameAspectRatio) {
+          // Image is wider than frame, fit to frame height
+          imageHeight = frameHeight;
+          imageWidth = imageHeight * imageAspectRatio;
+          imageX = (frameWidth - imageWidth) / 2;
+          imageY = 0;
+        } else {
+          // Image is taller than frame, fit to frame width
+          imageWidth = frameWidth;
+          imageHeight = imageWidth / imageAspectRatio;
+          imageX = 0;
+          imageY = (frameHeight - imageHeight) / 2;
         }
-        
+
         canvas.width = frameWidth;
         canvas.height = frameHeight;
 
         context.clearRect(0, 0, frameWidth, frameHeight);
 
+        // Initialize the canvas with a black background
+        context.fillStyle = 'black';
+        context.fillRect(0, 0, canvas.width, canvas.height);
+
         context.save();
         context.translate(canvas.width, 0);
         context.scale(-1, 1);
 
+        // Draw the captured image on the canvas
         context.drawImage(capturedImg, imageX, imageY, imageWidth, imageHeight);
         context.restore();
 
+        // Draw the frame image on top
         context.drawImage(frameImage, 0, 0, frameWidth, frameHeight);
 
         const finalImage = canvas.toDataURL('image/png');
-        setCapturedImage((prevImage) => prevImage === capturedImage ? finalImage : prevImage);
+        setCapturedImage((prevImage) => (prevImage === capturedImage ? finalImage : prevImage));
         setImageLoaded(true);
       } catch (error) {
         console.error('Failed to load images', error);
@@ -76,7 +89,7 @@ function CheckView() {
     };
 
     loadImages();
-  }, []); 
+  }, [capturedImage, navigate, setCapturedImage]);
 
   const handleRetake = () => {
     setCapturedImage(null);
