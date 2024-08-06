@@ -38,19 +38,19 @@ function CheckView() {
         const frameWidth = frameImage.width;
         const frameHeight = frameImage.height;
 
-        // Calculate image dimensions and position for different screen sizes
+        // 모바일 화면 크기 기준 조정
         let imageWidth, imageHeight, imageX, imageY;
-        if (window.innerWidth <= 768) { // Mobile device settings
-          const aspectRatio = frameWidth / frameHeight;
+        if (window.innerWidth <= 768) { // 모바일 기기 너비의 예: 768px 이하
           imageWidth = frameWidth * 0.8; 
-          imageHeight = imageWidth / aspectRatio;
-          imageX = (frameWidth - imageWidth) / 2; // Center horizontally
-          imageY = (frameHeight - imageHeight) / 2; // Center vertically
-        } else { // Desktop settings
+          imageHeight = frameHeight * 0.734;
+          imageX = (frameWidth - imageWidth) / 2.3;
+          imageY = (frameHeight - imageHeight) / 2.4;
+        } else { // 데스크탑 또는 더 큰 화면의 기본 비율
           imageWidth = frameWidth * 0.8; 
           imageHeight = frameHeight * 0.77;
-          imageX = (frameWidth - imageWidth) / 2; // Center horizontally
-          imageY = (frameHeight - imageHeight) / 2; // Center vertically
+          imageX = (frameWidth - imageWidth) / 2.3;
+          imageY = (frameHeight - imageHeight) / 2.5;
+
         }
         
         canvas.width = frameWidth;
@@ -62,7 +62,6 @@ function CheckView() {
         context.translate(canvas.width, 0);
         context.scale(-1, 1);
 
-        // Draw the captured image and the frame
         context.drawImage(capturedImg, imageX, imageY, imageWidth, imageHeight);
         context.restore();
 
