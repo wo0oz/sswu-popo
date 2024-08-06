@@ -1,0 +1,232 @@
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  font-family: Pretendard;
+  background: linear-gradient(149deg, #141315 48.9%, #252428 100.11%);
+  color: #fff;
+}
+
+#root {
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+
+}
+
+.container {
+  width: 100%;
+  //max-width: 100%;
+  //margin: auto;
+  padding: 10px;
+  box-sizing: border-box;
+  //background: linear-gradient(149deg, #141315 48.9%, #252428 100.11%);
+  //box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+@media (min-width: 375px) {
+  .container {
+    max-width: 375px;
+  }
+}
+
+@media (min-width: 390px) {
+  .container {
+    max-width: 390px;
+  }
+}
+
+@media (min-width: 430px) {
+  .container {
+    max-width: 430px;
+  }
+}
+
+.main-view {
+  text-align: center;
+}
+
+
+.decorate-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: auto;
+  position: relative;
+
+  .photo-area {
+    position: relative;
+    width: 80%;
+    max-width: 600px;
+    height: auto;
+    //border: 10px solid white;
+    //background-color: white;
+    //margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+
+  .sticker-panel {
+    padding-left: 20px;
+    padding-right: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: repeat(3, minmax(100px, auto));
+    gap: 15px;
+    margin-top: 32px;
+    justify-content: center;
+
+    img {
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+    }
+
+    .sticker-one {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      background: var(--Dark-Gray, #242227);
+      object-fit: cover;
+      // /* 이미지 비율 유지하며 크기 조정 */
+      padding: 15px;
+      box-sizing: border-box;
+      /* 패딩 포함한 박스 크기 설정 */
+
+    }
+  }
+
+  .bottom-bar {
+    position: absolute;
+    bottom: 20px;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding: 0 20px;
+
+    button {
+      width: 100px;
+      height: 40px;
+      border-radius: 20px;
+      border: none;
+      font-size: 16px;
+    }
+
+    .home-button {
+      background-color: #f2b14c;
+    }
+
+    .download-button {
+      background-color: #7d49f2;
+      color: white;
+    }
+  }
+}
+
+// 스티커 들어가는 모달
+.modal-container {
+  position: fixed;
+  bottom: -280px;
+  left: 0;
+  width: 100%;
+  height: 300px;
+  transition: bottom 0.3s;
+  background-color: #1A1A1C;
+
+  &.open {
+    bottom: 0;
+    width: 100%;
+    height: 541px;
+  }
+
+  /* Modal 기본 스타일 */
+  .modal {
+    position: relative;
+    width: 100%;
+    height: 541px;
+    background-color: #1A1A1C;
+    z-index: 1;
+    overflow-y: auto;
+
+
+    .sticker-list {
+      background-color: #1A1A1C;
+      display: inline-flex;
+      padding-top: 22px;
+      // justify-content: flex-end;
+      // align-items: center;
+      // gap: 10px;
+      z-index: 3;
+      overflow-y: auto;
+
+
+
+    }
+
+
+    .sticker-choose {
+      display: flex;
+      width: 30px;
+      height: 20px;
+      padding: 10px 19px;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      border-radius: 8px;
+      background: var(--Light-Purple, #8F6CF0);
+
+    }
+
+    .sticker-cat {
+      width: 25px;
+
+    }
+  }
+
+}
+
+
+/* Toggle 버튼 스타일 */
+.toggle-modal-button {
+  position: absolute;
+  top: -71.5px;
+  left: 50%;
+  width: 100%;
+  height: 92px;
+  transform: translateX(-50%);
+  z-index: 2;
+  border-radius: 32px 32px 0px 0px;
+  border-top: 2px solid var(--Mid-Purple, #403365);
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+  background: var(--Black, #1A1A1C);
+}
+
+.updown-img {
+  cursor: pointer;
+  width: 42px;
+  height: 47px;
+  margin-top: 13px;
+  margin-bottom: 31px;
+
+}
