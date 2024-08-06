@@ -12,6 +12,9 @@ function CheckView() {
   const canvasRef = useRef(null);
   const [imageLoaded, setImageLoaded] = useState(false);
 
+  const FRAME_WIDTH = 800;  // 카메라와 동일한 프레임 너비
+  const FRAME_HEIGHT = 1000;  // 카메라와 동일한 프레임 높이
+
   useEffect(() => {
     if (!capturedImage) {
       navigate('/camera');
@@ -37,46 +40,23 @@ function CheckView() {
       try {
         await Promise.all([loadImage(frameImage), loadImage(capturedImg)]);
 
-        const frameWidth = frameImage.width;
-        const frameHeight = frameImage.height;
+        canvas.width = FRAME_WIDTH;
+        canvas.height = FRAME_HEIGHT;
 
-        // Calculate image dimensions based on the frame aspect ratio
-        const imageAspectRatio = capturedImg.width / capturedImg.height;
-        const frameAspectRatio = frameWidth / frameHeight;
+        context.clearRect(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
 
-        let imageWidth, imageHeight, imageX, imageY;
-
-        if (imageAspectRatio > frameAspectRatio) {
-          // Image is wider than frame, fit to frame height
-          imageHeight = frameHeight;
-          imageWidth = imageHeight * imageAspectRatio;
-          imageX = (frameWidth - imageWidth) / 2;
-          imageY = 0;
-        } else {
-          // Image is taller than frame, fit to frame width
-          imageWidth = frameWidth;
-          imageHeight = imageWidth / imageAspectRatio;
-          imageX = 0;
-          imageY = (frameHeight - imageHeight) / 2;
-        }
-
-        canvas.width = frameWidth;
-        canvas.height = frameHeight;
-
-        context.clearRect(0, 0, frameWidth, frameHeight);
-
-        // Initialize the canvas with a black background
+        // 블랙 배경으로 캔버스 초기화
         context.fillStyle = 'black';
         context.fillRect(0, 0, canvas.width, canvas.height);
 
-        // Apply the mirrored effect only once when drawing the image
+        // 캡처된 이미지 그리기 (좌우 반전 포함)
         context.save();
-        context.scale(-1, 1);  // Flip horizontally
-        context.drawImage(capturedImg, -imageX - imageWidth, imageY, imageWidth, imageHeight);
+        context.scale(-1, 1);
+        context.drawImage(capturedImg, -canvas.width, 0, canvas.width, canvas.height);
         context.restore();
 
-        // Draw the frame image on top
-        context.drawImage(frameImage, 0, 0, frameWidth, frameHeight);
+        // 프레임 이미지 그리기
+        context.drawImage(frameImage, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
 
         const finalImage = canvas.toDataURL('image/png');
         setCapturedImage((prevImage) => (prevImage === capturedImage ? finalImage : prevImage));
@@ -100,7 +80,7 @@ function CheckView() {
   return (
     <div className="check-view">
       <div className="photo-frame">
-        <canvas ref={canvasRef} className="result-canvas"></canvas>
+        <canvas ref={canvasRef} className="result-canvas" width={FRAME_WIDTH} height={FRAME_HEIGHT}></canvas>
         {!imageLoaded && <div><Loading /></div>}
       </div>
       <div className="button-container">
