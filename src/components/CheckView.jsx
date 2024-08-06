@@ -43,13 +43,16 @@ function CheckView() {
         if (window.innerWidth <= 768) { // 모바일 기기 너비의 예: 768px 이하
           imageWidth = frameWidth * 0.8; 
           imageHeight = frameHeight * 0.75;
+          imageX = (frameWidth - imageWidth) / 2.3;
+          imageY = (frameHeight - imageHeight) / 2.4;
         } else { // 데스크탑 또는 더 큰 화면의 기본 비율
           imageWidth = frameWidth * 0.8; 
           imageHeight = frameHeight * 0.77;
-        }
-        imageX = (frameWidth - imageWidth) / 2.3;
-        imageY = (frameHeight - imageHeight) / 2.5;
+          imageX = (frameWidth - imageWidth) / 2.3;
+          imageY = (frameHeight - imageHeight) / 2.5;
 
+        }
+        
         canvas.width = frameWidth;
         canvas.height = frameHeight;
 
