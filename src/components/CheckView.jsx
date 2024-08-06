@@ -69,12 +69,10 @@ function CheckView() {
         context.fillStyle = 'black';
         context.fillRect(0, 0, canvas.width, canvas.height);
 
+        // Apply the mirrored effect only once when drawing the image
         context.save();
-        context.translate(canvas.width, 0);
-        context.scale(-1, 1);
-
-        // Draw the captured image on the canvas
-        context.drawImage(capturedImg, imageX, imageY, imageWidth, imageHeight);
+        context.scale(-1, 1);  // Flip horizontally
+        context.drawImage(capturedImg, -imageX - imageWidth, imageY, imageWidth, imageHeight);
         context.restore();
 
         // Draw the frame image on top
@@ -115,7 +113,8 @@ function CheckView() {
         <Link to="/decorate">
           <button className="next-button">
             <img src='images/NextButton.png' alt='Next' />
-            Next</button>
+            Next
+          </button>
         </Link>
       </div>
     </div>
