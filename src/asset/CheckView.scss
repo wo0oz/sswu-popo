@@ -15,6 +15,23 @@ html,
   margin: 0 auto;
 }
 
+.body,
+html,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
 .check-view {
   .photo-frame {
     position: relative;
@@ -34,24 +51,38 @@ html,
     justify-content: space-between;
     margin-top: 20px;
 
-    .retake-button, .next-button {
-      display: flex;
-      align-items: center;
-      padding: 10px 20px;
+
+  .result-canvas {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 20px;
+
+    button {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
       border: none;
-      border-radius: 4px;
-      background-color: #007bff;
-      color: white;
+      font-size: 16px;
+      color: #fff;
+      padding: 0;
       cursor: pointer;
-      text-decoration: none;
-
-      img {
-        margin-right: 8px;
-      }
-
-      &:hover {
-        background-color: #0056b3;
-      }
     }
   }
+
+  .retake-button img,
+  .next-button img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    padding-bottom: 10px;
+  }
+
+}
 }
