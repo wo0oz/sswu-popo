@@ -15,6 +15,13 @@ html,
   margin: 0 auto;
 }
 
+.photo-frame {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 20px;
+}
+
 .check-view {
   display: flex;
   flex-direction: column;
@@ -22,13 +29,7 @@ html,
   justify-content: center;
   height: 100vh;
 
-  .photo-frame {
-    position: relative;
-    width: 100%;
-    max-width: 400px;
-    margin-bottom: 20px;
-  }
-
+  
   .result-canvas {
     width: 100%;
     height: auto;
