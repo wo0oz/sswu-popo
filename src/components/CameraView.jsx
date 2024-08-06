@@ -12,9 +12,10 @@ function CameraView() {
     navigator.mediaDevices.getUserMedia({ 
       video: {
         facingMode: 'user',
-        width: { ideal: 480 },
-        height: { ideal: 640 }
-      }})
+        width: {ideal: 480 },
+        height: {ideal:640}
+      } })
+
       .then(stream => {
         videoRef.current.srcObject = stream;
       })
@@ -27,6 +28,7 @@ function CameraView() {
     canvas.height = videoRef.current.videoHeight;
     const context = canvas.getContext('2d');
 
+    // 좌우 반전 !!
     context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
 
     const dataUrl = canvas.toDataURL('image/png');
@@ -48,4 +50,4 @@ function CameraView() {
   );
 }
 
-export default CameraView;
+export default CameraView; //카메라 컴포넌트를 추출한다는 뜻 (맹)
