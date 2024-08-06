@@ -37,7 +37,7 @@ function CheckView() {
 
         const frameWidth = frameImage.width;
         const frameHeight = frameImage.height;
-        const imageWidth = frameWidth * 0.8; 
+        const imageWidth = frameWidth * 0.82; 
         const imageHeight = frameHeight * 0.77; 
         const imageX = (frameWidth - imageWidth) / 2.3;
         const imageY = (frameHeight - imageHeight) / 2.5;
